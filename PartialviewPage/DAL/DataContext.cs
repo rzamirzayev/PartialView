@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PartialviewPage.Models;
+using PustokBackTask.Models;
+using System;
+
 namespace PartialviewPage.DAL
 {
     public class DataContext : DbContext
@@ -23,5 +26,15 @@ namespace PartialviewPage.DAL
         public DbSet<Genre> Genres { get; set; }
 
         public DbSet<BookTag> BookTags { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BookTag>().HasKey(x => new { x.TagId, x.BookId });
+
+            modelBuilder.Entity<Setting>().HasKey(x => x.Key);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

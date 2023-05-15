@@ -12,6 +12,6 @@ namespace PartialviewPage.Models
         public string FullName { get; set; }
 
         public List<Author> Authors { get; set; }
-
+        public object Books { get; internal set; }
     }
 }

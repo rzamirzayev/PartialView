@@ -16,5 +16,11 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.Run();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
 
