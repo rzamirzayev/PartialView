@@ -2,8 +2,9 @@
 using PartialviewPage.DAL;
 using PartialviewPage.Models;
 using PartialviewPage.ViewModels;
+using PustokBackTask.ViewModels;
 
-namespace PustokBackTask.Services
+namespace PartialviewPage.Services
 {
     public class LayoutService
     {

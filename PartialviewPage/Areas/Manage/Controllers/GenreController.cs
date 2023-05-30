@@ -37,5 +37,54 @@ namespace PartialviewPage.Areas.Manage.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+        public IActionResult Edit(int id)
+        {
+            Genre genre =_context.Genres.Find(id);
+            return View(genre);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Genre genre)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+            Genre ExistGenre=_context.Genres.Find(genre.Id);
+            if(ExistGenre==null)
+            {
+                return View("Error");
+            }
+            if (genre.Name != ExistGenre.Name && _context.Genres.Any(x => x.Name == genre.Name))
+            {
+                ModelState.AddModelError("Name", "Bu adda kullanici var");
+                return View();
+            }
+            ExistGenre.Name= genre.Name;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public IActionResult Delete(int id)
+        {
+            Genre genre=_context.Genres.Include(x=>x.Books).SingleOrDefault(x=>x.Id==id);
+            if(genre==null)
+            {
+                return View("Error");
+            }
+            return View (genre);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Genre genre)
+        {
+            Genre ExistGenre = _context.Genres.Find(genre.Id);
+            if(ExistGenre==null)
+            {
+                return View("Error");
+            }
+            _context.Genres.Remove(ExistGenre);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

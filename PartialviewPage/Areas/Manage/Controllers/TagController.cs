@@ -38,5 +38,42 @@ namespace PartialviewPage.Areas.Manage.Controllers
             _context.SaveChanges();
             return RedirectToAction("index");
         }
+        public IActionResult Edit (int id)
+        {
+            Tag tag=_context.Tags.Find(id);
+            return View(tag);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Tag tag)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+            Tag ExistTag=_context.Tags.Find(tag.Id);
+            if (ExistTag == null)
+            {
+                return View("Error");
+            }
+            if(tag.Name!=ExistTag.Name && _context.Tags.Any(x=>x.Name == tag.Name)) {
+                ModelState.AddModelError("Name", "Bu ad artiq kullanilib");
+                return  View();
+            }
+            ExistTag.Name=tag.Name;
+            _context.SaveChanges();
+            return RedirectToAction("index");
+
+        }
+        public IActionResult Delete(int id)
+        {
+            Tag tag=_context.Tags.Find(id);
+            if(tag==null) { 
+            return View("Error");}
+            _context.Remove(tag);
+            _context.SaveChanges();
+            return View();
+        }
+        
     }
 }

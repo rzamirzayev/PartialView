@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using PartialviewPage.Attributes.ValidationAttributes;
 
 namespace PartialviewPage.Models
 {
@@ -19,5 +20,13 @@ namespace PartialviewPage.Models
         public decimal Price { get; set; }
 
         public string SliderImage { get; set; }
+        [Required]
+        public int Order { get; set; }
+        [NotMapped]
+        [AllowedExtensions("image/jpeg","image/png")]
+        public IFormFile ImageFile { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Url { get; set; }
     }
 }
